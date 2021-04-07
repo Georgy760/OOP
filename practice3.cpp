@@ -1,4 +1,4 @@
-//Колокутин Георгий Геннадьевич, КМБО-06-20, вариант 11, практическая работа №3
+//Колокутин Георгий Геннадьевич, КМБО-06-20, вариант 11, практическая работа №2
 
 /*
 Необходимо реализовать указанную схему наследования. В схеме «0» А1 –
@@ -68,30 +68,30 @@ public:
 	void show() { cout << "\nA3 = " << a3 << '\t'<< endl; }
 };
 
-class B1 : virtual public A1, virtual public A2, virtual public A3
+class B1 : public A1, public A2, public A3
 {
 protected:
 	int b1 = 0;
 public:
 	B1(int val, int val_2, int val_3, int val_4) : b1(val), A1(val_2), A2(val_3), A3(val_4) {};
-	void print() {
+	virtual void print() {
 		cout << "\n\t ->B1\n";
 	}
-	void show() {
+	virtual void show() {
 		cout << "\nA1 = " << a1 << "\nA2 = " << a2 << "\nA3 = " << a3 << "\tB1 = " << b1 << endl;
 	}
 };
 
-class B2 : virtual public A1, virtual public A2, virtual public A3
+class B2 : public A1, public A2, public A3
 {
 protected:
 	int b2 = 0;
 public:
 	B2(int val, int val_2, int val_3, int val_4) : b2(val), A1(val_2), A2(val_3), A3(val_4) {};
-	void print() {
+	virtual void print() {
 		cout << "\n\t ->B2\n";
 	}
-	void show() {
+	virtual void show() {
 		cout << "\nA1 = " << a1 << "\nA2 = " << a2 << "\nA3 = " << a3 << "\tB2 = " << b2 << endl;
 	}
 };
