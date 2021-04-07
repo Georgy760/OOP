@@ -33,7 +33,21 @@ public:
 	//конструктор принимает существующий массив
 	MyArrayParent(double* arr, int len)
 	{
-		cout << "\nMyArrayParent constructor\n";
+
+	cout << "\nMyArrayParent constructor with array" << endl;
+
+	capacity = len + 5;
+	ptr = new double[capacity]; //делаем массив с запасом
+	count = len;
+
+
+	for (int i = 0; i < len; ++i)
+	{
+		ptr[i] = arr[i];
+	}
+
+	print();
+
 		//заполнить массив ptr, заполнить поля
 	}
 	//деструктор
@@ -230,9 +244,10 @@ public:
 		}
 	}
 
-	MyArrayChild diff(double diff, MyArrayChild &V) {
-		cout << "\n---------DIFF START---------\n" << endl;
+	MyArrayChild diff(double diff) {
+		cout << "\n---------DIFF START (Child)---------\n" << endl;
 		double avr = 0.0;
+		MyArrayChild ChildArr;
 		for (int i = 0; i < count; i++) {
 			avr += ptr[i];
 		}
@@ -242,19 +257,16 @@ public:
 		cout << (avr - diff) << " " << (avr + diff);
 		for (int i = 0; i < count; i++) {
 			if ((ptr[i] >= (avr + diff)) || (ptr[i] <= (avr - diff))) {
-				V.ptr[i] = 0;
-
-
 			}
 			else {
 				cout << "\nDiff elements: " << ptr[i] << endl;
-
+				ChildArr.push(ptr[i]);
 			}
 		}
-		V.RemoveZeros();
-		V.print();
+		//RemoveZeros();
+		ChildArr.print();
 		cout << "\n---------DIFF END---------\n" << endl;
-		return V;
+		return ChildArr;
 	}
 
 
@@ -265,7 +277,7 @@ class MySortedArray : public MyArrayChild
 protected:
 	double* a;
 
-	int IndexOf_1(double value, bool bFindFromStart)// бинарный поиск
+	/*int IndexOf_1(double value, bool bFindFromStart)// бинарный поиск
 	{
 		if (bFindFromStart == true)
 		{
@@ -285,7 +297,7 @@ protected:
 			}
 			return mid;
 		}
-	}
+	}*/
 
 public:
 	MySortedArray(int Dimension = 100)
@@ -293,7 +305,7 @@ public:
 		ptr = new double[Dimension]; // выделяем память с помощью new
 		a = new double[Dimension];
 		capacity = Dimension;
-		count = 0; cout << "\nMyArrayChild constructor";
+		count = 0; cout << "\nMySortedArray constructor";
 	}
 
 	~MySortedArray()
@@ -330,12 +342,12 @@ public:
 				if (value > ptr[mid])
 					l = mid + 1;
 			}
-			return -1;
+			return mid;
 		}
 	}
 
-	MySortedArray diff(double diff, MySortedArray& V) { //Выделить все элементы, отличающиеся от среднего арифметического в массиве не более, чем на параметр функции diff
-		cout << "\n---------DIFF START---------\n" << endl;
+	/*MySortedArray diff(double diff) { //Выделить все элементы, отличающиеся от среднего арифметического в массиве не более, чем на параметр функции diff
+		cout << "\n---------DIFF START (Sorted)---------\n" << endl;
 		double avr = 0.0;
 		for (int i = 0; i < count; i++) {
 			avr += ptr[i];
@@ -346,7 +358,7 @@ public:
 		cout << (avr - diff) << " " << (avr + diff);
 		for (int i = 0; i < count; i++) {
 			if ((ptr[i] >= (avr + diff)) || (ptr[i] <= (avr - diff))) {
-				V.ptr[i] = 0;
+				ptr[i] = 0;
 
 
 			}
@@ -355,10 +367,46 @@ public:
 
 			}
 		}
-		V.RemoveZeros();
-		V.print();
+		RemoveZeros();
+		print();
 		cout << "\n---------DIFF END---------\n" << endl;
-		return V;
+		return *this;
+	}*/
+
+	MySortedArray diff(double diff) { //Выделить все элементы, отличающиеся от среднего арифметического в массиве не более, чем на параметр функции diff
+		cout << "\n---------DIFF START (Sorted)---------\n" << endl;
+		double avr = 0.0;
+		int start = 0;
+		bool starting = true;
+		int end = 0;
+		for (int i = 0; i < count; i++) {
+			avr += ptr[i];
+		}
+		avr = avr / count;
+		cout << "\nAverage: " << avr;
+		cout << "\nDiff: ";
+		cout << (avr - diff) << " " << (avr + diff);
+		for (int i = 0; i < count; i++) {
+			if ((ptr[i] >= (avr + diff)) || (ptr[i] <= (avr - diff))) {
+
+
+			}
+			else {
+				cout << "\nDiff elements: " << ptr[i] << endl;
+				end = i;
+				if (starting) {
+					start = i;
+					starting = false;
+				}
+			}
+		}
+		MySortedArray SortedArr;
+		for (int i = start; i < end; i++){
+			SortedArr.push(i+1);
+		}
+		SortedArr.print();
+		cout << "\n---------DIFF END---------\n" << endl;
+		return SortedArr;
 	}
 
 	void push(double x)
@@ -371,7 +419,7 @@ public:
 		}
 		else
 		{
-			int index = IndexOf_1(x, true);
+			int index = IndexOf(x, true);
 			InsertAt(x, index);
 		}
 	}
@@ -383,6 +431,23 @@ public:
 int main()
 {
 	//MyArrayParent arr;
+
+
+	MyArrayChild array;
+	for (int i = 0; i < 10; i++)
+	{
+		array.push(i + 1);
+	}
+	array.print();
+
+	MyArrayChild childDiff;
+	//srand(time(0));
+	for (int i = 0; i < 10; i++) {
+			childDiff.push((rand() % 10) + 1);
+	}
+	childDiff.print();
+	childDiff.diff(2);
+
 	MySortedArray arr;
 	for (int i = 0; i < 10; i++)
 	{
@@ -394,23 +459,7 @@ int main()
 	cout << "\n" << arr.IndexOf(15, true);
 	cout << "\n";
 
-	MyArrayChild array;
-	for (int i = 0; i < 10; i++)
-	{
-		array.push(i + 1);
-	}
-	array.print();
-	cout << "\n-----------------------------------------------" << endl;
-	arr.print();
-	MySortedArray arr1(arr);
-	arr1.diff(3, arr1);
-	arr1.print();
-	cout << "\n-----------------------------------------------" << endl;
-	array.print();
-	MyArrayChild a(array);
-	a.print();
-	array.diff(3, a);
-	array.print();
+	arr.diff(2);
 	char c; cin >> c;
 
 	return 0;
@@ -439,8 +488,5 @@ C. Унаследуйте новый класс MySortedArray от MyArrayChild.
 ввиду, что массив отсортирован. Переопределите операцию добавления элемента (push)
 таким образом, чтобы массив оставался отсортированным при добавлении нового
 элемента
-
-
-
 11 Вариант: выделить все элементы, отличающиеся от среднего арифметического в массиве не более, чем на параметр функции diff
 */
