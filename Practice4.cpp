@@ -1,4 +1,4 @@
-// КМБО-06-20, Колокутин Георгий, 11 вариант.
+//РљРѕР»РѕРєСѓС‚РёРЅ Р“РµРѕСЂРіРёР№ Р“РµРЅРЅР°РґСЊРµРІРёС‡, РљРњР‘Рћ-06-20, РІР°СЂРёР°РЅС‚ 11, РїСЂР°РєС‚РёС‡РµСЃРєР°СЏ СЂР°Р±РѕС‚Р° в„–4
 
 #include <iostream>
 
@@ -13,7 +13,7 @@ protected:
 public:
 	BaseString(char* ptr)
 	{
-		// Проверяем ptr != nullptr
+		// ГЏГ°Г®ГўГҐГ°ГїГҐГ¬ ptr != nullptr
 		cout << "\nBase Constructor 1\n";
 		capacity = 256;
 		p = new char[capacity];
