@@ -14,9 +14,11 @@ using namespace std;
 class Date {
 public:
 	int year;
-
-	Date(int y = 2000) {
-
+	int mounth;
+	int day;
+	Date(int d = 1, int m = 1, int y = 2000) {
+		day = d;
+		mounth = m;
 		year = y;
 	}
 	friend ostream& operator<<(ostream& s, const Date& d);
@@ -24,7 +26,10 @@ public:
 };
 ostream& operator<<(ostream& s, const Date& d) {
 	if (typeid(s) == typeid(ofstream)) {
-		s << d.year;
+		s << d.day << " " << d.mounth << " " << d.year;
+	}
+	else {
+		s << d.day << "." << d.mounth << "." << d.year;
 	}
 
 	return s;
@@ -34,12 +39,13 @@ istream& operator>>(istream& s, Date& d) {
 		string line;
 		getline(s, line);
 		std::istringstream iss(line);
-		iss >> d.year;
+		iss >> d.day >> d.mounth >> d.year;
 
 	}
-	s >> d.year;
+	s >> d.day >> d.mounth >> d.year;
 	return s;
 }
+
 
 
 /*
@@ -92,7 +98,8 @@ ostream& operator<<(ostream& s, const Album& p) {
 		s << p.name << "\n" << p.lable << "\n" << p.date_of_publish << "\n" << p.quantity;
 	}
 	else {
-		s << "Псевдоним: " << p.name << "\nНазвание альбома: " << p.lable << "\nДата выпуска: " << p.date_of_publish << "\nКоличество композиций: " << p.quantity;
+		s << "Псевдоним: " << p.name << "\nНазвание альбома: " << p.lable 
+			<< "\nДата выпуска: " << p.date_of_publish << "\nКоличество композиций: " << p.quantity;
 
 	}
 	return s;
@@ -685,7 +692,7 @@ int main()
 
 	Stack<Album> s_to_file;
 	Stack<Album> s_from_file;
-	s_to_file.push(Album()); s_to_file.push(Album("Виталий", "Альбом #2", Date(123), 100)); s_to_file.push(Album());
+	s_to_file.push(Album()); s_to_file.push(Album("Виталий", "Альбом #2", Date(10, 9, 2000), 100)); s_to_file.push(Album());
 	
 	string file_name = "Practice6.txt";
 	ofstream fout(file_name);
@@ -711,7 +718,7 @@ int main()
 
 	set_hex_manip(cout);
 	Stack<Album> s4;
-	s4.push(Album("Тимур", "Альбом #3", Date(1975), 128));
+	s4.push(Album("Тимур", "Альбом #3", Date(10, 9, 1990), 128));
 	s4.print_and_clear();
 	//Album(string i_name = "Иван", string i_lable = "Альбом 1", Date i_date_of_publish = Date(), int i_quantity = 1)
 	return 0;
