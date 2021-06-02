@@ -67,7 +67,8 @@ public:
 	}
 };
 
-//наследую от базового класса, т.к. задание : "Получить вектор, в котором содержатся максимальные элементы из каждой строки матрицы" - не связанно с двумя матрицами.
+//наследую от базового класса, т.к. задание : "Получить вектор, каждая компонента которого содержит среднее арифметическое элементов из соответствующей строки матрицы"
+//- не связанно с двумя матрицами
 class WrongSizeException : public Exception
 {
 protected:
@@ -433,7 +434,8 @@ int main()
 {
 	setlocale(LC_ALL, "Ru-ru");
 
-	ofstream out("Practice5_OutPut.txt");
+	ofstream out("Practice5_OutPut.txt"); //записываем
+	
 
 	Matrix<int> answ(3, 1);
 	Matrix<int> m1(3, 3);
@@ -448,17 +450,42 @@ int main()
 		out << answ;
 		out.close();
 	}
+	
 
-	ifstream in("Practice5_OutPut.txt");
+	ifstream in("Practice5_OutPut.txt"); //читаем
 
 	Matrix<int> txt(in);
 	in.close();
 
 	answ.print();
 
-	cout << '\n';
+	cout << '\n';	
 
 	txt.print();
+
+	ofstream outMatrix("Practice5_Matrix.txt"); //записываем
+
+	answ = m1;
+
+	if (outMatrix.is_open())
+	{
+		outMatrix << answ;
+		outMatrix.close();
+	}
+
+	ifstream inMatrix("Practice5_Matrix.txt"); //читаем
+
+
+	Matrix<int> txtMatrix(inMatrix);
+	inMatrix.close();
+
+	answ.print();
+
+	cout << '\n';
+
+	txtMatrix.print();
+
+	
 
 	try
 	{
