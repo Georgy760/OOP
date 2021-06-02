@@ -3,6 +3,7 @@
 #include <string>
 #include <fstream>
 #include <sstream>
+#include <iomanip>
 
 using namespace std;
 
@@ -98,7 +99,7 @@ ostream& operator<<(ostream& s, const Album& p) {
 		s << p.name << "\n" << p.lable << "\n" << p.date_of_publish << "\n" << p.quantity;
 	}
 	else {
-		s << "Псевдоним: " << p.name << "\nНазвание альбома: " << p.lable 
+		s << "Псевдоним: " << p.name << "\nНазвание альбома: " << p.lable
 			<< "\nДата выпуска: " << p.date_of_publish << "\nКоличество композиций: " << p.quantity;
 
 	}
@@ -128,6 +129,11 @@ istream& operator>>(istream& s, Album& p) {
 	}
 
 	return s;
+}
+
+ostream& set_wight_manip(ostream& f) {
+	f << setw(5) << left;
+	return f;
 }
 
 
@@ -244,7 +250,6 @@ public:
 		}
 		this->head = nullptr;
 		this->count = 0;
-		this->head = nullptr;
 	}
 
 	virtual Element<T>* pop() = 0;
@@ -344,7 +349,7 @@ public:
 		}
 		this->head = nullptr;
 		this->count = 0;
-		this->head = nullptr;
+
 	}
 
 	// В базовом классе не было конструктора копий
@@ -539,7 +544,7 @@ public:
 	void print_and_clear() {
 		while (!this->isEmpty()) {
 			Element<T1>* ptr = this->pop();
-			cout << ptr->info << "\n\n";
+			cout << set_wight_manip<< ptr->info << "\n\n";
 			delete ptr;
 		}
 	}
@@ -616,6 +621,7 @@ public:
 // Функция проверки равенства названий
 bool lable_search(const Album& p, const string param_for_search_in_value = "") {
 	if (p.lable == param_for_search_in_value) {
+		cout << "lable_search: ";
 		return true;
 	}
 	else {
@@ -626,6 +632,7 @@ bool lable_search(const Album& p, const string param_for_search_in_value = "") {
 // Функция проверки равенства имён
 bool name_search(const Album& p, const string param_for_search_in_value = "") {
 	if (p.name == param_for_search_in_value) {
+		cout << "name_search: ";
 		return true;
 	}
 	else {
@@ -634,9 +641,7 @@ bool name_search(const Album& p, const string param_for_search_in_value = "") {
 }
 
 
-void set_hex_manip(ostream& f) {
-	f << hex << uppercase;
-}
+
 
 
 int main()
@@ -647,8 +652,9 @@ int main()
 	{
 		Stack<Album> s;
 		s.push(Album());
-		s.push(Album("Сидоров"));
 		s.push(Album("Козлов"));
+		s.push(Album("Тимур", "Test"));
+		
 
 		s.remove(1);
 
@@ -656,8 +662,8 @@ int main()
 		s.insert(Album("Insert"), 2);
 
 
-		Stack<Album>* s2 = s.filter_recursive(lable_search, string("Иванов"));
-		Stack<Album> s3 = s.filter(name_search, string("Иванов"));
+		Stack<Album>* s2 = s.filter_recursive(lable_search, string("Test"));
+		Stack<Album> s3 = s.filter(name_search, string("Николай"));
 
 
 		cout << "\n~~~Изначальный список~~~\n";
@@ -692,8 +698,8 @@ int main()
 
 	Stack<Album> s_to_file;
 	Stack<Album> s_from_file;
-	s_to_file.push(Album()); s_to_file.push(Album("Виталий", "Альбом #2", Date(10, 9, 2000), 100)); s_to_file.push(Album());
-	
+	s_to_file.push(Album()); s_to_file.push(Album("Виталий", "Альбом #test", Date(10, 9, 2000), 100)); s_to_file.push(Album());
+
 	string file_name = "Practice6.txt";
 	ofstream fout(file_name);
 
@@ -716,7 +722,7 @@ int main()
 	cout << "\n~~~Readed from file~~~\n";
 	s_from_file.print_and_clear();
 
-	set_hex_manip(cout);
+	set_wight_manip(cout);
 	Stack<Album> s4;
 	s4.push(Album("Тимур", "Альбом #3", Date(10, 9, 1990), 128));
 	s4.print_and_clear();
